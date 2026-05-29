@@ -1,1 +1,23 @@
+{% extends "base.html" %}
 
+{% block content %}
+<h2>📝 Мои записи</h2>
+
+{% if entries %}
+    {% for entry in entries %}
+    <div class="card">
+        <h3>{{ entry.title }}</h3>
+        <p class="date">{{ entry.date }}</p>
+        <a href="{{ url_for('detail', entry_id=entry.id) }}">Читать</a>
+        <form action="{{ url_for('delete', entry_id=entry.id) }}" method="POST" style="display: inline;">
+            <button type="submit" class="delete" onclick="return confirm('Удалить запись?')">Удалить</button>
+        </form>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Пока нет записей. Создайте первую!</p>
+    <a href="{{ url_for('add') }}" class="button">+ Создать запись</a>
+{% endif %}
+
+<a href="{{ url_for('filter_week') }}" class="filter-link">📅 Показать записи за неделю</a>
+{% endblock %}
